@@ -2,6 +2,7 @@ import json
 import os
 from HealthcheckHTTP import HealthcheckHTTP
 from HealthcheckPort import HealthcheckPort
+from HealthcheckPing import HealthcheckPing
 
 class Levande:
     def __init__(self):
@@ -17,6 +18,8 @@ class Levande:
                 healthcheck = HealthcheckHTTP(system.get("url"))
             if system.get("method") == "Port":
                 healthcheck = HealthcheckPort(system.get("host"), system.get("port"))
+            if system.get("method") == "Ping":
+                healthcheck = HealthcheckPing(system.get("host"))
             
             statusStr = os.getenv("LEVANDE_STATUS_DOWN", 'DOWN')
             if healthcheck.isHealthy():
