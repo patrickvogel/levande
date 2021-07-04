@@ -10,9 +10,11 @@ The configuration file is a simple JSON file. Each system has to be configured w
 The following methods are available and require different properties:
 - `HTTP` (GET request that expects a response code 200)
   - `url` (String): HTTP(S) URL that will be requested
-- `Port` (Checks if specific port is open)
+- `Port` (Checks if specific TCP port is open)
   - `host` (String): Host name / IP
   - `port` (Number): Port
+- `Ping` (Checks ping to host)
+  - `host` (String): Host name / IP
 
 Example configuration:
 <pre>
@@ -20,7 +22,8 @@ Example configuration:
     "systems": [ 
         { "id": "example", "method": "HTTP", "url": "https://example.org" },
         { "id": "badexample", "method": "HTTP", "url": "http://brokenwebsite.example.org" },
-        { "id": "portexample", "method": "Port", "host": "example.org", "port": 80 }
+        { "id": "portexample", "method": "Port", "host": "example.org", "port": 80 },
+        { "id": "pingexample", "method": "Ping", "host": "example.org" }
     ] 
 }
 </pre>
@@ -31,6 +34,7 @@ The configuration above would result in the following MQTT structure:
   > example = UP
   > badexample = DOWN  
   > portexample = UP
+  > pingexample = UP
 </pre>
 
 ### Environment variables
@@ -43,7 +47,7 @@ The following environment variables can be set:
 - MQTT_PASSWORD: MQTT password (default: none)
 - MQTT_TOPIC_PREFIX: topic prefix (default: 'levande/')
 - SLEEP_TIME: frequency of health checks in secs (default: '30')
-- LEVANDE_CONFIG_FILE: config file to define web apps to be checked (default: '/var/levande/config/levande.json')
+- LEVANDE_CONFIG_FILE: config file to define the systems to be checked (default: '/var/levande/config/levande.json')
 - LEVANDE_STATUS_UP: status value for healthy web apps (default: 'UP')
 - LEVANDE_STATUS_DOWN: status value for broken web apps (default: 'DOWN')
 - VERIFY_SSL: true/false if SSL certs should be verified

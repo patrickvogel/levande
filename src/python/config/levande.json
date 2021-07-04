@@ -2,6 +2,7 @@
     "systems": [ 
         { "id": "example", "method": "HTTP", "url": "https://example.org" },
         { "id": "badexample", "method": "HTTP", "url": "http://brokenwebsite.example.org" },
-        { "id": "portexample", "method": "Port", "host": "example.org", "port": 80 }
+        { "id": "portexample", "method": "Port", "host": "example.org", "port": 80 },
+        { "id": "pingexample", "method": "Ping", "host": "example.org" }
     ] 
 }
