@@ -3,9 +3,8 @@ import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-class Healthcheck:
-    def __init__(self, name, url):
-        self.name = name
+class HealthcheckHTTP:
+    def __init__(self, url):
         self.url = url
         self.verifySSL = os.getenv("VERIFY_SSL", 'true').lower() in ['true', '1']
 
@@ -17,5 +16,5 @@ class Healthcheck:
             return False
 
 if __name__ == "__main__":
-    healthcheck = Healthcheck("Example", "http://example.org")
-    print(healthcheck.name, healthcheck.isHealthy())             
+    healthcheck = HealthcheckHTTP("http://example.org")
+    print(healthcheck.url, healthcheck.isHealthy())             
