@@ -1,29 +1,36 @@
 # levande
-> Publish the health status of your web apps via MQTT
+> Publish the health status of systems via MQTT
 
 ## Usage
 
 ### Configuration file
 
-The configuration file is a simple JSON file:
+The configuration file is a simple JSON file. Each system has to be configured with a unique `id`, the `method` to obtain the health status with and further method specific properties. 
+
+The following methods are available and require different properties:
+- `HTTP` (GET request that expects a response code 200)
+  - `url` (String): HTTP(S) URL that will be requested
+- `Port` (Checks if specific port is open)
+  - `host` (String): Host name / IP
+  - `port` (Number): Port
+
+Example configuration:
 <pre>
 { 
     "systems": [ 
-        { "id": "example", "name": "example.org", "url": "http://example.org" },
-        { "id": "badexample", "name": "Bad Example", "url": "http://brokenwebsite.example.org" }
+        { "id": "example", "method": "HTTP", "url": "https://example.org" },
+        { "id": "badexample", "method": "HTTP", "url": "http://brokenwebsite.example.org" },
+        { "id": "portexample", "method": "Port", "host": "example.org", "port": 80 }
     ] 
 }
 </pre>
-Each system has an `id`, `name` and `url`. The configuration above would result in the following MQTT structure:
+The configuration above would result in the following MQTT structure:
 <pre>
 > levande
   > lastUpdate = 2021-07-04 12:34:56.123456
-  > example
-    > name = example.org
-    > status = UP
-  > badexample
-    > name = Bad Example
-    > status = DOWN  
+  > example = UP
+  > badexample = DOWN  
+  > portexample = UP
 </pre>
 
 ### Environment variables

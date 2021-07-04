@@ -32,8 +32,7 @@ def publish(client):
     while True:
         levande = Levande()
         for system in levande.getStatus():            
-            client.publish(topic_prefix+system.get("id")+"/name", system.get("name"))
-            client.publish(topic_prefix+system.get("id")+"/status", system.get("status"))
+            client.publish(topic_prefix+system.get("id"), system.get("status"))
 
         client.publish(topic_prefix+"lastUpdate", str(datetime.datetime.now()))
 

@@ -1,6 +1,7 @@
 import json
 import os
-from Healthcheck import Healthcheck
+from HealthcheckHTTP import HealthcheckHTTP
+from HealthcheckPort import HealthcheckPort
 
 class Levande:
     def __init__(self):
@@ -11,11 +12,16 @@ class Levande:
     def getStatus(self):
         status = []
         for system in self.config.get("systems"):
-            healthcheck = Healthcheck(system.get("name"), system.get("url"))
+            healthcheck = None
+            if system.get("method") == "HTTP":
+                healthcheck = HealthcheckHTTP(system.get("url"))
+            if system.get("method") == "Port":
+                healthcheck = HealthcheckPort(system.get("host"), system.get("port"))
+            
             statusStr = os.getenv("LEVANDE_STATUS_DOWN", 'DOWN')
             if healthcheck.isHealthy():
                 statusStr = os.getenv("LEVANDE_STATUS_UP", 'UP')
-            status.append({ "id": system.get("id"), "name": system.get("name"), "status": statusStr })
+            status.append({ "id": system.get("id"), "status": statusStr })
         return status
 
 if __name__ == "__main__":
