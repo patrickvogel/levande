@@ -1,0 +1,6 @@
+{ 
+    "systems": [ 
+        { "id": "example", "name": "example.org", "url": "http://example.org" },
+        { "id": "badexample", "name": "Bad Example", "url": "http://brokenwebsite.example.org" }
+    ] 
+}
